@@ -23,6 +23,8 @@ class Student(models.Model):
     reserve = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     freeze_date = models.DateField(null=True, blank=True)
     freeze_status = models.BooleanField(default=False)
+    check = models.BooleanField(default=False)
+    duration_check = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -47,6 +49,14 @@ def freeze(sender, instance, *args, **kwargs):
         instance.freeze_date = datetime.now().strftime("%Y-%m-%d")
 
 
+# # добавление оплаты каждый месяц
+# def update_payment(sender, instance, *args, **kwargs):
+#     if instance.check:
+#         instance.payment_month += payment(instance)
+#         instance.check = False
+
+
 pre_save.connect(discount_price, sender=Student)
 pre_save.connect(freeze, sender=Student)
+# pre_save.connect(update_payment, sender=Student)
 

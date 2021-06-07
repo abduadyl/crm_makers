@@ -6,7 +6,7 @@ from .utils import get_price
 
 
 class Student(models.Model):
-    personal_data = models.CharField(max_length=250)
+    personal_data = models.CharField(max_length=250, db_index=True)
     passport_ID = models.CharField(max_length=250)
     passport_INN = models.CharField(max_length=250)
     passport_date = models.DateField()

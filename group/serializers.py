@@ -19,5 +19,8 @@ class GroupSerializer(serializers.ModelSerializer):
         representation = super(GroupSerializer, self).to_representation(instance)
         action = self.context.get('action')
         if action == 'retrieve':
+            representation['course_title'] = instance.course.type
             representation['students'] = StudentSerializer(Student.objects.filter(group=instance.id), many=True).data
+        elif action == 'list':
+            representation['course_title'] = instance.course.type
         return representation

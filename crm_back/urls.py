@@ -32,5 +32,6 @@ urlpatterns = [
    path('api/v1/docs/', schema_view.with_ui()),
    path('api/v1/', include('account.urls')),
    path('api/v1/', include('bill.urls')),
+   path('api/v1/', include('group.urls')),
    path('api/v1/', include(router.urls)),
 ]

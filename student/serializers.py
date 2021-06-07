@@ -30,3 +30,4 @@ class StudentCreateUpdateSerializer(serializers.ModelSerializer):
         representation = super(StudentCreateUpdateSerializer, self).to_representation(instance)
         representation['group'] = instance.group.title
         return representation
+    

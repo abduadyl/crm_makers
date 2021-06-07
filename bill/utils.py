@@ -41,7 +41,7 @@ def get_total(instance):
     return total
 
 
-def save_data(student, usd, eur, kgs):
+def save_study(student, usd, eur, kgs):
     total = conversion_to_usd(usd, eur, kgs)
     student.total_paid += total
     if total > student.payment_month:
@@ -52,6 +52,14 @@ def save_data(student, usd, eur, kgs):
         student.reserve = 0
     student.credit_balance = student.course_price - student.total_paid
     student.save()
+
+
+def save_penalty(student, days, usd, eur, kgs):
+    total = conversion_to_usd(usd, eur, kgs)
+    student.penalty_days += days
+    student.penalty_total += total
+    student.save()
+
 
 
 

@@ -3,7 +3,7 @@ from .models import Bill
 from .serializers import BillSerializer
 from .pagination import BillPagination
 from student.models import Student
-from .utils import save_data
+from .utils import save_study, save_penalty
 from rest_framework.permissions import IsAdminUser
 
 
@@ -26,7 +26,12 @@ class BillListCreateView(generics.ListCreateAPIView):
         usd = Decimal(request.data.get('usd'))
         eur = Decimal(request.data.get('eur'))
         kgs = Decimal(request.data.get('kgs'))
-        save_data(student, usd, eur, kgs)
+        type = request.data.get('payment_type')
+        if type == 'study':
+            save_study(student, usd, eur, kgs)
+        elif type == 'penalty':
+            days = int(request.data.get('penalty_days'))
+            save_penalty(student, days, usd, eur, kgs)
 
 
 

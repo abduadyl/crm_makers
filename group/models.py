@@ -20,7 +20,7 @@ class Course(models.Model):
 class Group(models.Model):
     course = models.ForeignKey(Course, on_delete=models.DO_NOTHING, related_name='course')
     title = models.CharField(max_length=50)
-    price = models.DecimalField(decimal_places=2, max_digits=10, default=0)
+    price = models.DecimalField(decimal_places=2, max_digits=10)
     start = models.DateField()
     end = models.DateField()
     total_students = models.PositiveIntegerField(default=0)

@@ -21,6 +21,8 @@ class Student(models.Model):
     total_paid = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     credit_balance = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     reserve = models.DecimalField(decimal_places=2, max_digits=10, default=0)
+    penalty_days = models.PositiveIntegerField(default=0)
+    penalty_total = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     freeze_date = models.DateField(null=True, blank=True)
     freeze_status = models.BooleanField(default=False)
     check = models.BooleanField(default=False)

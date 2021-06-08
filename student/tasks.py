@@ -14,7 +14,7 @@ QUERYSET = Group.objects.all()
 
 mailjet = Client(auth=(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE), version='v3.1')
 
-def send_mail(student_id):
+def send_mail(data_):
     data = {
         'Messages': [
     {
@@ -30,7 +30,7 @@ def send_mail(student_id):
       ],
       "Subject": "Список студентов которые не оплатили",
       "TextPart": "Список",
-      "HTMLPart": f"Лист студентов которые не оплатали: {student_id}"
+      "HTMLPart": f"Список студентов и их группы: {data_}"
         }
     ]
     }
@@ -44,7 +44,9 @@ def get_students_from_group(groups):
         students = group.student.get_queryset()
         for student in students:
             student.check = True
-            send_mail(student.personal_data)
+            data = {student.personal_data: student.group.title for _ in range(students.count())}
+            print(data)
+            send_mail(data)
             student.save()
 
 

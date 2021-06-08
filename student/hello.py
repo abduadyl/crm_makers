@@ -1,12 +1,7 @@
-inp = int(input("Enret: "))
-a = {
-    4: "a",
-    3: 'b',
-    2: 'c',
-    1: 'e'
-}
+def he(str_):
+    list_ = []
+    list_[:0] = [str_]
+    return list_
 
-if inp in a:
-    print(a.get(inp))
-else:
-    print("0")
+str_ = 'ABD'
+print(he(str_))

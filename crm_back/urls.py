@@ -1,3 +1,4 @@
+from re import U
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg.views import get_schema_view
@@ -32,5 +33,6 @@ urlpatterns = [
    path('api/v1/docs/', schema_view.with_ui()),
    path('api/v1/', include('account.urls')),
    path('api/v1/', include('bill.urls')),
+   path('api/v1/', include('group.urls')),
    path('api/v1/', include(router.urls)),
 ]

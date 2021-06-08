@@ -14,6 +14,7 @@ QUERYSET = Group.objects.all()
 
 mailjet = Client(auth=(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE), version='v3.1')
 
+
 def send_mail(data_):
     data = {
         'Messages': [

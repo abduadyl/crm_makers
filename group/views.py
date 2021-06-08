@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, viewsets
 from .models import Group, Course
 from .serializers import CourseSerializer, GroupSerializer
@@ -16,8 +17,9 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     pagination_class = GroupPagination
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['title', ]
+    filterset_fields = ['course', ]
     # permission_classes = [IsAdminUser, ]
     http_method_names = ['get', 'post', ]
 

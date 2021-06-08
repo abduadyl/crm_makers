@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'phonenumber_field',
+    'django_filters',
 
     # my apps
     'account',
@@ -91,6 +92,9 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

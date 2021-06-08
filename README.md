@@ -65,7 +65,7 @@ http://localhost:5555/
 ```bash
 (sudo) apt-get update
 (sudo) apt-get install -y git
-(sudo) apt-get install -y mc
+(sudo) apt-get install -y vim
 (sudo) apt-get install -y python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx
 ```
 

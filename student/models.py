@@ -2,7 +2,7 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from group.models import Group
 from django.db.models.signals import pre_save
-from .utils import get_price
+from .utils import get_price, payment, get_duration
 
 
 class Student(models.Model):
@@ -51,14 +51,21 @@ def freeze(sender, instance, *args, **kwargs):
         instance.freeze_date = datetime.now().strftime("%Y-%m-%d")
 
 
+def duration(sender, instance, *args, **kwargs):
+    if not instance.duration_check:
+        instance.duration_check = get_duration(instance)
+
+
 # # добавление оплаты каждый месяц
-# def update_payment(sender, instance, *args, **kwargs):
-#     if instance.check:
-#         instance.payment_month += payment(instance)
-#         instance.check = False
+def update_payment(sender, instance, *args, **kwargs):
+    if instance.check:
+        instance.payment_month += payment(instance)
+        instance.duration_check -= 1
+        instance.check = False
 
 
 pre_save.connect(discount_price, sender=Student)
 pre_save.connect(freeze, sender=Student)
-# pre_save.connect(update_payment, sender=Student)
+pre_save.connect(duration, sender=Student)
+pre_save.connect(update_payment, sender=Student)
 

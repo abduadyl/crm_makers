@@ -9,21 +9,29 @@ def get_price(instance):
     return discount_price
 
 
-# def payment(instance):
-#     import math
-#     duration_month = math.floor(int(str(instance.group.end - instance.group.start).split(' ')[0]) / 30)
-#     instance.duration_check = duration_month
-#     group_price = instance.group.price
-#     individual_price = instance.course_price
-#     discount = group_price - individual_price
-#     per_month = (group_price - FIRST_PAYMENT) / (duration_month - 1)
-#     last_month = per_month - discount
-#     if instance.duration_check == 4:
-#         return per_month
-#     elif instance.duration_check == 3:
-#         return per_month
-#     elif instance.duration_check == 2:
-#         return per_month
-#     elif instance.duration_check == 1:
-#         return last_month
-#     return 0
+def get_duration(instance):
+    import math
+    duration_month = math.floor(int(str(instance.group.end - instance.group.start).split(' ')[0]) / 30)
+    return duration_month
+
+
+def payment(instance):
+    import math
+    duration_month = math.floor(int(str(instance.group.end - instance.group.start).split(' ')[0]) / 30)
+    group_price = instance.group.price # 800
+    individual_price = instance.course_price
+    discount = group_price - individual_price
+    per_month = (group_price - FIRST_PAYMENT) / (duration_month - 1)
+    print(per_month)
+    last_month = per_month - discount
+    
+    duration_check = {
+        4: per_month,
+        3: per_month,
+        2: per_month,
+        1: last_month
+    }
+
+    if instance.duration_check in duration_check:
+        return duration_check.get(instance.duration_check)
+    return 0

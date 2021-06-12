@@ -17,11 +17,14 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     pagination_class = GroupPagination
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
     search_fields = ['title', ]
     filterset_fields = ['course', ]
     # permission_classes = [IsAdminUser, ]
-    http_method_names = ['get', 'post', ]
+    http_method_names = ['get', 'post', 'patch', ]
 
     def get_serializer_context(self):
         return {'action': self.action, 'request': self.request}
+
+    def retrieve(self, request, *args, **kwargs):
+        return super(GroupViewSet, self).retrieve(request, *args, **kwargs)

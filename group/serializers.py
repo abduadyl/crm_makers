@@ -24,3 +24,4 @@ class GroupSerializer(serializers.ModelSerializer):
         elif action == 'list':
             representation['course_title'] = instance.course.type
         return representation
+

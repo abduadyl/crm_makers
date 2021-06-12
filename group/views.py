@@ -5,6 +5,8 @@ from .serializers import CourseSerializer, GroupSerializer
 from .pagination import GroupPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework import filters
+from django.db.models import F
+
 
 
 class CourseListCreateView(generics.ListCreateAPIView):
@@ -17,11 +19,21 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     pagination_class = GroupPagination
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
     search_fields = ['title', ]
     filterset_fields = ['course', ]
     # permission_classes = [IsAdminUser, ]
     http_method_names = ['get', 'post', ]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        ordering = self.request.GET.get('ordering', '')
+        if ordering == 'student_up':
+            data = queryset.first().student.all().order_by('personal_data')
+            print(f'HELO::::::{data}')
+            print(f'HELO1::::::{queryset.first().student.all()}')
+        return queryset
+
 
     def get_serializer_context(self):
         return {'action': self.action, 'request': self.request}

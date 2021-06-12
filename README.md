@@ -66,7 +66,7 @@ http://localhost:5555/
 (sudo) apt-get update
 (sudo) apt-get install -y git
 (sudo) apt-get install -y vim
-(sudo) apt-get install -y python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx
+(sudo) apt-get install -y python3-pip python3-venv python3-dev libpq-dev postgresql postgresql-contrib nginx
 ```
 
 ## flower in Production

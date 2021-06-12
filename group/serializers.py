@@ -18,9 +18,14 @@ class GroupSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super(GroupSerializer, self).to_representation(instance)
         action = self.context.get('action')
+        ordering = self.context['request'].GET.get('ordering', '')
         if action == 'retrieve':
             representation['course_title'] = instance.course.type
-            representation['students'] = StudentSerializer(Student.objects.filter(group=instance.id), many=True).data
+            if ordering == 'student_down':
+                students = StudentSerializer(Student.objects.filter(group=instance.id).order_by('-personal_data'), many=True).data
+            elif ordering == 'student_up':
+                students = StudentSerializer(Student.objects.filter(group=instance.id).order_by('personal_data'), many=True).data
+            representation['students'] = students
         elif action == 'list':
             representation['course_title'] = instance.course.type
         return representation

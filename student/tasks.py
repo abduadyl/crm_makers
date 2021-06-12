@@ -54,7 +54,7 @@ def get_students_from_group(groups):
 def get_checked_groups():
     for query in QUERYSET:
         query.last_check = query.start
-        month_ago = date.today() - timedelta(days=30)
+        month_ago = date.today() - timedelta(days=35)
         groups = Group.objects.filter(Q(last_check__lte=month_ago) | Q(last_check=month_ago))
         query.last_check = date.today()
         if groups:

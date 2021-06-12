@@ -6,7 +6,7 @@ from .utils import get_price, payment, get_duration
 
 
 class Student(models.Model):
-    personal_data = models.CharField(max_length=250)
+    personal_data = models.CharField(max_length=250, db_index=True)
     passport_ID = models.CharField(max_length=250)
     passport_INN = models.CharField(max_length=250)
     passport_date = models.DateField()
@@ -21,6 +21,8 @@ class Student(models.Model):
     total_paid = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     credit_balance = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     reserve = models.DecimalField(decimal_places=2, max_digits=10, default=0)
+    penalty_days = models.PositiveIntegerField(default=0)
+    penalty_total = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     freeze_date = models.DateField(null=True, blank=True)
     freeze_status = models.BooleanField(default=False)
     check = models.BooleanField(default=False)
@@ -54,12 +56,17 @@ def duration(sender, instance, *args, **kwargs):
         instance.duration_check = get_duration(instance)
 
 
-# # добавление оплаты каждый месяц
+# добавление оплаты каждый месяц
 def update_payment(sender, instance, *args, **kwargs):
     if instance.check:
-        instance.payment_month += payment(instance)
-        instance.duration_check -= 1
-        instance.check = False
+        if instance.course_price <= 200:
+            instance.duration_check = 0
+            instance.payment_month += payment(instance)
+            instance.check = False
+        else:
+            instance.payment_month += payment(instance)
+            instance.duration_check -= 1
+            instance.check = False
 
 
 pre_save.connect(discount_price, sender=Student)

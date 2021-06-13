@@ -37,7 +37,6 @@ def send_mail(data_):
     result = mailjet.send.create(data=data)
     print(result.json())
 
-
 @app.task
 def get_students_from_group(groups):
     for group in groups:

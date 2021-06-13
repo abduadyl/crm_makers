@@ -1,6 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, viewsets
-from .models import Group, Course
+from .models import Group, Course, PaymentMonth
 from .serializers import CourseSerializer, GroupSerializer
 from .pagination import GroupPagination
 from rest_framework.permissions import IsAdminUser

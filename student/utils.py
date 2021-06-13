@@ -14,30 +14,14 @@ def get_duration(instance):
 
 def payment(instance):
     import math
-    FIRST_PAYMENT = 200
-    duration_month = math.floor(int(str(instance.group.end - instance.group.start).split(' ')[0]) / 30) # count of months
-    discount = instance.group.price - instance.course_price # 560 if 800, 400 if 400
-    
-    course_price = instance.group.price - discount # 240(800 - 560) / 400
-    last_month = course_price - discount
-    get_payment = (course_price - FIRST_PAYMENT) / (duration_month - 1) # ~9(240-200 / 3) / 66(400-200) / 3
-    
-    duration_check = {
-        4: get_payment,
-        3: get_payment,
-        2: get_payment,
-        1: last_month
-    }
-    
-    if instance.duration_check in duration_check:
-        if instance.course_price <= 200:
-            return instance.course_price
-
-        if get_payment <= 100:
-            instance.duration_check = 2
-            instance.payment_month = get_payment
-            return duration_check.get(instance.duration_check)
-
-        return duration_check.get(instance.duration_check)
-
-    return 0
+    if not instance.payment_month == instance.course_price:
+        duration_month = math.floor(int(str(instance.group.end - instance.group.start).split(' ')[0]) / 30) # count of months    
+        discount_price = instance.group.price - instance.course_price
+        dict_of_all_months = {k: v for k, v in instance.group.__dict__.items() if 'payment_month' in k}
+        duration_check = {k: v for k, v in dict_of_all_months.items() if v}
+        if instance.course_price < duration_check.get('payment_month_1'):
+            duration_check['payment_month_1'] = instance.course_price
+            return list(duration_check.values())[::-1][instance.duration_check-1]
+        last_month = duration_check.pop(sorted(list(duration_check.keys()))[-1])
+        duration_check['last_month'] = last_month - discount_price
+        return list(duration_check.values())[::-1][instance.duration_check-1]

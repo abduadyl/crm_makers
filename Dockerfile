@@ -1,19 +1,15 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.8-slim-buster
+FROM python:3.8
 
 ENV PYTHONBUFFERED 1
 
-RUN mkdir -p ./app
+WORKDIR /usr/src/crm_makers
 
-WORKDIR /app
+COPY ./requirements.txt /usr/src/requirements.txt
 
-RUN apk add --update --no-cache postgresql-client jpeg-dev
+RUN pip3 install -r /usr/src/requirements.txt 
 
-COPY requirements.txt requirements.txt
-
-RUN pip3 install -r requirements.txt 
-
-COPY . .
+COPY . /usr/src/crm_makers/
 
 CMD [ "python3", "manage.py", "runserver", "0.0.0.0:8000"]

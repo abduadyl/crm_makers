@@ -58,8 +58,8 @@ def duration(sender, instance, *args, **kwargs):
 
 # добавление оплаты каждый месяц
 def update_payment(sender, instance, *args, **kwargs):
-    if instance.check:
-        if not instance.payment_month == instance.course_price:
+    if not instance.total_paid == instance.course_price:
+        if instance.check:
             instance.payment_month += payment(instance)
             instance.check = False
             instance.duration_check -= 1

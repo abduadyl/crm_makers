@@ -63,6 +63,14 @@ class GroupSerializer(serializers.ModelSerializer):
             students = StudentSerializer(Student.objects.filter(group=instance.id).order_by('reserve'), many=True).data
         elif ordering == 'reserve_up':
             students = StudentSerializer(Student.objects.filter(group=instance.id).order_by('-reserve'), many=True).data
+        elif ordering == 'discount_down':
+            students = StudentSerializer(Student.objects.filter(group=instance.id).order_by('discount'), many=True).data
+        elif ordering == 'discount_up':
+            students = StudentSerializer(Student.objects.filter(group=instance.id).order_by('-discount'), many=True).data
+        elif ordering == 'course_down':
+            students = StudentSerializer(Student.objects.filter(group=instance.id).order_by('course_price'), many=True).data
+        elif ordering == 'course_up':
+            students = StudentSerializer(Student.objects.filter(group=instance.id).order_by('-course_price'), many=True).data
         else:
             students = StudentSerializer(Student.objects.filter(group=instance.id), many=True).data
         return students

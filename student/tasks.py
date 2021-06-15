@@ -38,7 +38,6 @@ def send_mail(data_):
     result = mailjet.send.create(data=data)
     print(result.json())
 
-
 @app.task
 def get_students_from_group(groups):
     for group in groups:
@@ -55,7 +54,7 @@ def get_students_from_group(groups):
 def get_checked_groups():
     for query in QUERYSET:
         query.last_check = query.start
-        month_ago = date.today() - timedelta(days=30)
+        month_ago = date.today() - timedelta(days=35)
         groups = Group.objects.filter(Q(last_check__lte=month_ago) | Q(last_check=month_ago))
         query.last_check = date.today()
         if groups:

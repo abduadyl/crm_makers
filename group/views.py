@@ -23,11 +23,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAdminUser, ]
     http_method_names = ['get', 'post', 'patch', ]
 
-    def get_queryset(self):
-        queryset = super(GroupViewSet, self).get_queryset()
-        # ordering = self.request.GET.get('ordering', '')
-        return queryset
-
     def get_serializer_context(self):
         return {'action': self.action, 'request': self.request}
 

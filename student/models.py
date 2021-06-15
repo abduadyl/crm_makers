@@ -58,10 +58,13 @@ def duration(sender, instance, *args, **kwargs):
 
 # добавление оплаты каждый месяц
 def update_payment(sender, instance, *args, **kwargs):
-    if instance.check:
-        instance.payment_month += payment(instance)
-        instance.duration_check -= 1
-        instance.check = False
+    if not instance.total_paid == instance.course_price:
+        if instance.check:
+            instance.payment_month += payment(instance)
+            instance.check = False
+            instance.duration_check -= 1
+        if not instance.duration_check:
+            instance.duration_check = 999
 
 
 pre_save.connect(discount_price, sender=Student)

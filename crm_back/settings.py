@@ -15,10 +15,10 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG")
+DEBUG = bool(int(os.environ.get("DEBUG", default=1)))
 
 ALLOWED_HOSTS = []
 
@@ -81,16 +81,47 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'crm_back.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        'NAME': os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        'USER': os.environ.get("SQL_USER", 'user'),
+        'PASSWORD': os.environ.get("SQL_PASSWORD", "password"),
+        'HOST': os.environ.get('SQL_HOST', 'localhost'),
+        'PORT': os.environ.get("SQL_PORT", "5432")
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'crm_makers',
+#         'USER': 'tof',
+#         'PASSWORD': '1',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432'
+#     }
+# }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'HOST': 'crm_db',
+#         'PORT': 5432
+#     }
+# }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
@@ -143,9 +174,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # mailjet configs
-MJ_APIKEY_PRIVATE = env("MJ_APIKEY_PRIVATE") 
-MJ_APIKEY_PUBLIC = env("MJ_APIKEY_PUBLIC")
-SENDER_EMAIL = env("SENDER_EMAIL")
+MJ_APIKEY_PRIVATE = os.environ.get("MJ_APIKEY_PRIVATE") 
+MJ_APIKEY_PUBLIC = os.environ.get("MJ_APIKEY_PUBLIC")
+SENDER_EMAIL = os.environ.get("SENDER_EMAIL")
 
 
 # celery configs

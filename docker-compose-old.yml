@@ -1,0 +1,19 @@
+version: '3.7'
+
+services: 
+    crm_db:
+        image: postgres:10.1-alpine
+        volumes: 
+            - postgres_data:/var/lib/postgresql/data/
+    crm_web:
+        build: .
+        command: python3 /usr/src/crm_makers/manage.py runserver 0.0.0.0:8000
+        volumes:
+            - .:/usr/src/crm_makers
+        ports:
+            - 8000:8000
+        depends_on: 
+            - crm_db
+
+volumes:
+    postgres_data:

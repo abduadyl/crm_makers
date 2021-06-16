@@ -1,12 +1,10 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, viewsets
-from .models import Group, Course, PaymentMonth
+from .models import Group, Course
 from .serializers import CourseSerializer, GroupSerializer
 from .pagination import GroupPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework import filters
-from django.db.models import F
-
 
 
 class CourseListCreateView(generics.ListCreateAPIView):
@@ -23,7 +21,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     search_fields = ['title', ]
     filterset_fields = ['course', ]
     # permission_classes = [IsAdminUser, ]
-    http_method_names = ['get', 'post', ]
+    http_method_names = ['get', 'post', 'patch', ]
 
     def get_queryset(self):
         queryset = super().get_queryset()

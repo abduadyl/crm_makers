@@ -21,7 +21,7 @@ def payment(instance):
         duration_check['last_month'] = last_month - discount_price # новое значение для ключа last_month в duration_check с учетом скидки
         # list_of_months = [month for month in duration_check]
         var = list(duration_check.values())[::-1][instance.duration_check-1] # мы превращаем наш словарь со значениями в лист и переварачиваем его и получаем с помощью duration_check получаем значения
-        if instance.payment_month: # если студент не оплатил за определенный месяц то по логике мы должны вывести оставшуюся сумму(это должно работать при последнем месяце либо с большой скидкой)
+        if instance.payment_month + var >= instance.course_price: # если студент не оплатил за определенный месяц то по логике мы должны вывести оставшуюся сумму(это должно работать при последнем месяце либо с большой скидкой)
             return instance.course_price - instance.payment_month
         if instance.credit_balance and instance.credit_balance < var: # если студент оплатил и у него в кредите осталась сумма которая превышает сумму данного месяца
             return instance.credit_balance # то мы вывыодим просто его кредит

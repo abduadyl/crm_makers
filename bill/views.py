@@ -26,7 +26,9 @@ class BillListCreateView(generics.ListCreateAPIView):
         usd = Decimal(request.data.get('usd'))
         eur = Decimal(request.data.get('eur'))
         kgs = Decimal(request.data.get('kgs'))
-        save_data(student, usd, eur, kgs)
+        penalty_days = int(request.data.get('penalty_days'))
+        penalty_total = Decimal(request.data.get('penalty_total'))
+        save_data(student, usd, eur, kgs, penalty_days, penalty_total)
 
 
 

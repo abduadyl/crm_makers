@@ -18,7 +18,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(os.environ.get("DEBUG", default=1)))
+DEBUG = bool(os.environ.get("DEBUG", default=1))
 
 ALLOWED_HOSTS = []
 
@@ -81,28 +81,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'crm_back.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
-        'NAME': os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
-        'USER': os.environ.get("SQL_USER", 'user'),
-        'PASSWORD': os.environ.get("SQL_PASSWORD", "password"),
-        'HOST': os.environ.get('SQL_HOST', 'localhost'),
-        'PORT': os.environ.get("SQL_PORT", "5432")
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'crm_makers',
-#         'USER': 'tof',
-#         'PASSWORD': '1',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432'
+#         'ENGINE': os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+#         'NAME': os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+#         'USER': os.environ.get("SQL_USER", 'user'),
+#         'PASSWORD': os.environ.get("SQL_PASSWORD", "password"),
+#         'HOST': os.environ.get('SQL_HOST', 'localhost'),
+#         'PORT': os.environ.get("SQL_PORT", "5432")
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'crm_makers',
+        'USER': 'tof',
+        'PASSWORD': '1',
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
+    }
+}
 
 
 # DATABASES = {

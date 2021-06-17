@@ -19,6 +19,10 @@ RUN pip3 install -r requirements.txt
 
 COPY . . 
 
+ENTRYPOINT [ "./start.sh" ]
+
+RUN chmod +x start.sh
+
 
 
 # previous configs

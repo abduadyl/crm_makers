@@ -28,8 +28,6 @@ class GroupViewSet(viewsets.ModelViewSet):
         ordering = self.request.GET.get('ordering', '')
         if ordering == 'student_up':
             data = queryset.first().student.all().order_by('personal_data')
-            print(f'HELO::::::{data}')
-            print(f'HELO1::::::{queryset.first().student.all()}')
         return queryset
 
 

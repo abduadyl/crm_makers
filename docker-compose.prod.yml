@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+    crm_back:
+        context: ./
+        dockerfile: Dockerfile.prod
+        command: gunicorn crm_back.wsgi:application --bind 0.0.0.0:8000
+        ports:
+            - 8000:8000
+        env_file:
+            - ./.env
+        depends_on:
+            - crm_db
+    crm_db:
+        image: postgres:12.0-alpine
+        volumes:
+            - crm_data:/var/lib/postgresql/data/
+        env_file:
+            - ./.env
+
+    nginx:
+        build: ./nginx
+        ports:
+            - 1337:80
+        depends_on:
+            - crm_back
+volumes:
+    crm_data:   

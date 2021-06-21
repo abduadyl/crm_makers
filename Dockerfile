@@ -9,20 +9,23 @@ ENV PYTHONBUFFERED 1
 
 ENV PYTHONDONTWRITEBYTECODE 1
 
-# RUN apt-get update && apt-get install gcc python3-dev musl-dev
+RUN apt-get update && apt-get install netcat -y
+
+RUN apt-get install python3-dev gcc musl-dev -y 
 
 RUN pip3 install --upgrade pip
 
 COPY ./requirements.txt .
 
-RUN pip3 install -r requirements.txt    
+RUN pip3 install -r requirements.txt
 
-COPY . . 
+COPY ./entrypoint.sh /app/entrypoint.sh
 
-ENTRYPOINT [ "./start.sh" ]
+RUN chmod +x /app/entrypoint.sh
 
-RUN chmod +x start.sh
+COPY . .
 
+CMD ["/entrypoint.sh"]
 
 
 # previous configs

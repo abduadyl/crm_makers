@@ -1,0 +1,53 @@
+###########
+# BUILDER #
+###########
+
+FROM python:3.8 as builder
+
+WORKDIR /usr/src/app
+
+ENV PYTHONBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+
+RUN apt-get update && apt-get install netcat -y && apt-get install python3-dev gcc musl-dev -y 
+
+RUN pip3 install --upgrade pip
+
+COPY . .
+
+COPY ./requirements.txt .
+
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+
+
+#########
+# FINAL #
+#########
+
+FROM python:3.8
+
+RUN mkdir -p /home/tof
+
+RUN groupadd crm_back
+RUN useradd -n -g crm_back tof -p 1
+RUN usermod -aG crm_back tof
+
+ENV HOME=/home/tof
+ENV APP_HOME=/home/tof/crm_back
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+RUN apt-get update && apt-get install libpq-dev -y 
+COPY --from=builder /usr/src/app/wheels /wheels
+COPY --from=builder /usr/src/app/requirements.txt .
+RUN pip install --no-cache /wheels/*
+
+COPY ./entrypoint.sh ${APP_HOME}
+
+COPY . ${APP_HOME}
+
+RUN chown -R tof:tof ${APP_HOME}
+
+USER tof
+
+ENTRYPOINT [ "/home/tof/web/entrypoint.sh" ]

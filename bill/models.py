@@ -21,7 +21,7 @@ class Bill(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.student.personal_data} ${self.total}"
+        return f"{self.student.personal_data} ${self.study_total}"
 
 
 def total_payment_study(sender, instance, *args, **kwargs):

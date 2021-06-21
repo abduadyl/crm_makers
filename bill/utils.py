@@ -46,13 +46,15 @@ def save_data(student, usd, eur, kgs, penalty_days, penalty_total):
     student.penalty_days += penalty_days
     student.penalty_total += penalty_total
     student.total_paid += total
-
     if total > student.payment_month:
-        student.reserve = total - student.payment_month
+        student.reserve = total - student.payment_month + student.reserve
         student.payment_month = 0
     else:
         student.payment_month = student.payment_month - total - student.reserve
-        student.reserve = 0
+        student.reserve = 0 
+        if student.payment_month < 0:
+            student.reserve += abs(student.payment_month)
+            student.payment_month = 0
     student.credit_balance = student.course_price - student.total_paid
     if student.credit_balance < 0:
             student.credit_balance = 0

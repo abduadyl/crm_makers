@@ -151,10 +151,7 @@ Thumbs.db
 .prof
 
 setenv.sh
-<<<<<<< HEAD
 .env
-=======
->>>>>>> 9215c497a23583c55b0049c1d64c88fe302bc07c
 
 
 # End of https://www.toptal.com/developers/gitignore/api/python

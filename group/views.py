@@ -7,12 +7,6 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework import filters
 
 
-class CourseListCreateView(generics.ListCreateAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
-    # permission_classes = [IsAdminUser, ]
-
-
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
@@ -33,3 +27,10 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def get_serializer_context(self):
         return {'action': self.action, 'request': self.request}
+
+
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    # permission_classes = [IsAdminUser, ]
+    

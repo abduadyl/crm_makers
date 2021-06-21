@@ -6,7 +6,7 @@ from drf_yasg import openapi
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 from student.views import StudentViewSet
-from group.views import GroupViewSet, CourseListCreateView
+from group.views import GroupViewSet, CourseViewSet
 
 
 # swagger
@@ -26,6 +26,7 @@ schema_view = get_schema_view(
 router = DefaultRouter()
 router.register('student', StudentViewSet)
 router.register('group', GroupViewSet)
+router.register('course', CourseViewSet)
 
 
 urlpatterns = [
@@ -33,6 +34,5 @@ urlpatterns = [
    path('api/v1/docs/', schema_view.with_ui()),
    path('api/v1/', include('account.urls')),
    path('api/v1/', include('bill.urls')),
-   path('api/v1/', include('group.urls')),
    path('api/v1/', include(router.urls)),
 ]
